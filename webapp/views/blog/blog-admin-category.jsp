@@ -10,11 +10,7 @@
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script type="text/javascript">
-$(function(){
-	
-	$("#header-category a").remove();
-	$("#header-category").addClass("selected").append("<a>카테고리</a>");
-	
+var getListAjax = function(){
 	// category 출력하는 ajax
 	$.ajax({
 		url:"${pageContext.request.contextPath}/blog/${blogVo.user_id}/category/ajax-list",
@@ -37,6 +33,15 @@ $(function(){
 			console.error(status + ":" + error);
 		}
 	})
+}
+
+$(function(){
+	
+	$("#header-category a").remove();
+	$("#header-category").addClass("selected").append("<a>카테고리</a>");
+	
+	// category 출력하는 ajax
+	getListAjax();
 	
 	// category 삽입 버튼 클릭
 	$("#submit").click(function(){
@@ -56,28 +61,7 @@ $(function(){
 				
 				$(".categorylist").remove();
 				
-				// category 출력하는 ajax
-				$.ajax({
-					url:"${pageContext.request.contextPath}/blog/${blogVo.user_id}/category/ajax-list",
-					type:"get",
-					dataType:"json",
-					data:"",
-					success:function(response){
-						if(response.result != "success"){
-							return;
-						}
-						var $count = response.data.length;
-						$.each(response.data, function(index, vo){
-							renderHtml(vo, $count);
-							$count--;
-						})
-						
-						console.log(response);
-					},
-					error:function(xhr/*XMLHttpRequest*/, status, error){
-						console.error(status + ":" + error);
-					}
-				})
+				getListAjax();
 			},
 			error:function(xhr, status, error){
 				console.error(status + ":" + error);
@@ -101,28 +85,7 @@ $(function(){
 
 				$(".categorylist").remove();
 				
-				// category 출력하는 ajax
-				$.ajax({
-					url:"${pageContext.request.contextPath}/blog/${blogVo.user_id}/category/ajax-list",
-					type:"get",
-					dataType:"json",
-					data:"",
-					success:function(response){
-						if(response.result != "success"){
-							return;
-						}
-						var $count = response.data.length;
-						$.each(response.data, function(index, vo){
-							renderHtml(vo, $count);
-							$count--;
-						})
-						
-						console.log(response);
-					},
-					error:function(xhr/*XMLHttpRequest*/, status, error){
-						console.error(status + ":" + error);
-					}
-				})
+				getListAjax();
 			},
 			error:function(xhr/*XMLHttpRequest*/, status, error){
 				console.error(status + ":" + error);
