@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blog">
+
+	<select id="get_blog" resultType="blogvo" parameterType="blogvo">
+		select 	no as blog_no,
+				user_id,
+				blog_name,
+				img
+		from 	blog
+		where	user_id = #{user_id}
+	</select>
+
+	<insert id="insert_blog" parameterType="blogvo">
+		insert into blog 
+			values(
+				null,
+				#{user_id},
+				#{blog_name}, 
+				#{img})
+		<selectKey keyProperty="blog_no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="blogvo">
+		update 	blog
+		set 	blog_name = #{blog_name} 
+			<if test="img != ''">
+				,img = #{img}
+			</if>
+		where user_id = #{user_id}
+	</update>
+	
+</mapper>

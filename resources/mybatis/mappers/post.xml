@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="post">
+
+	<select id="get_list" resultType="postvo" parameterType="long">
+		select	no,
+				category_no,
+				title,
+				content,
+				reg_date
+		from 	post
+		where	category_no = #{no}
+	</select>
+	
+	<select id="get" resultType="postvo" parameterType="postvo">
+		select	no,
+				category_no,
+				title,
+				content,
+				reg_date
+		from	post
+		where	no = #{no}
+	</select>
+	
+	<insert id="insert" parameterType="postvo">
+		insert 	into post
+			values 	(
+					null,
+					#{category_no},
+					#{title},
+					#{content},
+					now()
+					)
+	</insert>
+	
+	<delete id="delete" parameterType="postvo">
+		delete	from post
+		where	no = #{no}
+	</delete>
+	
+</mapper>
